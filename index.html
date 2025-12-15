@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCESS | LOGIN & REGISTER</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>ACCESS</h1>
+            <p>SECURE LOGIN PORTAL</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-toggle">
+                <button class="toggle-btn active" id="login-toggle">
+                    <i class="fas fa-sign-in-alt"></i> LOGIN
+                </button>
+                <button class="toggle-btn" id="register-toggle">
+                    <i class="fas fa-user-plus"></i> REGISTER
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="form active">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <label for="login-email">EMAIL OR USERNAME</label>
+                    <input type="text" id="login-email" placeholder="ENTER EMAIL OR USERNAME" required>
+                    <div class="error-message" id="login-error"></div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <label for="login-password">PASSWORD</label>
+                    <input type="password" id="login-password" placeholder="ENTER PASSWORD" required>
+                    <span class="toggle-password" id="toggle-login-password">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                    <div class="error-message" id="login-password-error"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="login-btn">
+                    <span class="btn-text">LOGIN</span>
+                    <div class="btn-loader">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+                
+                <div class="form-footer">
+                    <a href="#" id="new-register-link">
+                        <i class="fas fa-user-plus"></i> NEW USER? REGISTER NOW
+                    </a>
+                </div>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="register-form" class="form">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <label for="register-name">FULL NAME</label>
+                    <input type="text" id="register-name" placeholder="ENTER FULL NAME" required>
+                    <div class="error-message" id="name-error"></div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <label for="register-email">EMAIL ADDRESS</label>
+                    <input type="email" id="register-email" placeholder="ENTER VALID EMAIL" required>
+                    <div class="error-message" id="email-error"></div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <label for="register-password">PASSWORD</label>
+                    <input type="password" id="register-password" placeholder="CREATE STRONG PASSWORD" required>
+                    <span class="toggle-password" id="toggle-register-password">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-bar" id="strength-bar"></div>
+                    </div>
+                    <div class="strength-text" id="strength-text"></div>
+                    <div class="requirements" id="password-requirements">
+                        <div class="requirement" id="req-length">
+                            <i class="fas fa-circle"></i> At least 8 characters
+                        </div>
+                        <div class="requirement" id="req-uppercase">
+                            <i class="fas fa-circle"></i> One uppercase letter
+                        </div>
+                        <div class="requirement" id="req-lowercase">
+                            <i class="fas fa-circle"></i> One lowercase letter
+                        </div>
+                        <div class="requirement" id="req-number">
+                            <i class="fas fa-circle"></i> One number
+                        </div>
+                        <div class="requirement" id="req-special">
+                            <i class="fas fa-circle"></i> One special character
+                        </div>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <label for="register-confirm">CONFIRM PASSWORD</label>
+                    <input type="password" id="register-confirm" placeholder="CONFIRM PASSWORD" required>
+                    <span class="toggle-password" id="toggle-register-confirm">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                    <div class="error-message" id="confirm-error"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="register-btn" disabled>
+                    <span class="btn-text">CREATE ACCOUNT</span>
+                    <div class="btn-loader">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+                
+                <div class="form-footer">
+                    <a href="#" id="existing-login-link">
+                        <i class="fas fa-sign-in-alt"></i> ALREADY HAVE ACCOUNT? LOGIN
+                    </a>
+                </div>
+            </form>
+        </div>
+        
+        <div class="security-info">
+            <p><i class="fas fa-shield-alt"></i> Your data is encrypted and secure</p>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    
+    <script src="index.js"></script>
+</body>
+</html>
