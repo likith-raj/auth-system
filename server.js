@@ -1,20 +1,91 @@
-// server.js - Complete Backend Server
+// server.js - Complete Render-ready Backend with SQLite
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('./database');
+const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'your-secret-key-change-this-in-production';
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
+// Initialize SQLite Database
+const db = new sqlite3.Database(
+    path.join(__dirname, 'database.db'),
+    sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+    (err) => {
+        if (err) {
+            console.error('❌ Database connection error:', err.message);
+        } else {
+            console.log('✅ Connected to SQLite database');
+            initDatabase();
+        }
+    }
+);
+
+// Initialize database tables
+function initDatabase() {
+    const sql = `
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `;
+    
+    db.run(sql, (err) => {
+        if (err) {
+            console.error('❌ Database initialization error:', err.message);
+        } else {
+            console.log('✅ Database table ready');
+        }
+    });
+}
+
+// Database helper functions
+const dbRun = (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        db.run(sql, params, function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({ id: this.lastID, changes: this.changes });
+            }
+        });
+    });
+};
+
+const dbGet = (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        db.get(sql, params, (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+};
+
+const dbAll = (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Serve static files (your HTML, CSS, JS)
 app.use(express.static(__dirname));
 
 // ==================== API ENDPOINTS ====================
@@ -23,15 +94,19 @@ app.use(express.static(__dirname));
 app.get('/api/test', (req, res) => {
     res.json({ 
         success: true, 
-        message: '✅ Backend is running!',
-        timestamp: new Date().toISOString()
+        message: '✅ Authentication API is running!',
+        environment: process.env.NODE_ENV || 'development',
+        timestamp: new Date().toISOString(),
+        database: 'SQLite'
     });
 });
 
-// Get all users (for viewing data)
+// Get all users (for admin view)
 app.get('/api/users', async (req, res) => {
     try {
-        const users = await db.getAllUsers();
+        const users = await dbAll(
+            'SELECT id, name, email, created_at FROM users ORDER BY created_at DESC'
+        );
         res.json({
             success: true,
             count: users.length,
@@ -53,16 +128,34 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        // Check password length
         if (password.length < 8) {
             return res.status(400).json({ error: 'Password must be at least 8 characters' });
+        }
+
+        // Check if user exists
+        const existingUser = await dbGet(
+            'SELECT * FROM users WHERE email = ?',
+            [email]
+        );
+        
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already registered' });
         }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Save to database
-        const user = await db.addUser(name, email, hashedPassword);
+        const result = await dbRun(
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            [name, email, hashedPassword]
+        );
+
+        // Get the created user
+        const user = await dbGet(
+            'SELECT id, name, email FROM users WHERE id = ?',
+            [result.id]
+        );
 
         // Generate JWT token
         const token = jwt.sign(
@@ -75,17 +168,13 @@ app.post('/api/register', async (req, res) => {
             success: true,
             message: '✅ Registration successful!',
             token: token,
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email
-            }
+            user: user
         });
 
     } catch (error) {
-        console.error('Registration error:', error.message);
+        console.error('Registration error:', error);
         
-        if (error.message === 'Email already exists') {
+        if (error.message.includes('UNIQUE')) {
             res.status(400).json({ error: 'Email already registered' });
         } else {
             res.status(500).json({ error: 'Registration failed' });
@@ -104,7 +193,11 @@ app.post('/api/login', async (req, res) => {
         }
 
         // Find user
-        const user = await db.findUserByEmail(email);
+        const user = await dbGet(
+            'SELECT * FROM users WHERE email = ?',
+            [email]
+        );
+        
         if (!user) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
@@ -139,13 +232,18 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Protected route example
+// Protected route example (for future use)
 app.get('/api/profile', authenticateToken, async (req, res) => {
     try {
-        const user = await db.findUserById(req.user.userId);
+        const user = await dbGet(
+            'SELECT id, name, email, created_at FROM users WHERE id = ?',
+            [req.user.userId]
+        );
+        
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        
         res.json({ success: true, user });
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch profile' });
@@ -170,9 +268,25 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Serve index.html for root route
+// Serve main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Serve view-data page
+app.get('/view-data', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view-data.html'));
+});
+
+// Handle 404 errors
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Server error:', err);
+    res.status(500).json({ error: 'Internal server error' });
 });
 
 // ==================== START SERVER ====================
@@ -180,13 +294,27 @@ app.listen(PORT, () => {
     console.log('=========================================');
     console.log('🚀 SERVER STARTED SUCCESSFULLY');
     console.log('=========================================');
-    console.log(`📡 API URL: http://localhost:${PORT}`);
-    console.log(`🌐 Frontend: http://localhost:${PORT}`);
-    console.log(`🛜 Test API: http://localhost:${PORT}/api/test`);
-    console.log(`👥 View Users: http://localhost:${PORT}/api/users`);
+    console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌐 URL: http://localhost:${PORT}`);
+    console.log(`🛜 API: http://localhost:${PORT}/api/test`);
+    console.log(`👥 Users API: http://localhost:${PORT}/api/users`);
+    console.log(`💾 Database: SQLite (database.db)`);
+    console.log(`🔐 JWT Secret: ${JWT_SECRET === 'your-secret-key-change-in-production' ? '⚠️ CHANGE IN PRODUCTION' : '✅ Set from env'}`);
     console.log('=========================================');
-    console.log('✅ Register users through the form');
-    console.log('✅ Data will be saved in users.db file');
-    console.log('✅ Login anytime with registered email');
+    console.log('✅ Ready for deployment to Render.com');
+    console.log('✅ Frontend: http://localhost:3000');
+    console.log('✅ View Data: http://localhost:3000/view-data');
     console.log('=========================================');
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+    db.close((err) => {
+        if (err) {
+            console.error('❌ Database close error:', err.message);
+        } else {
+            console.log('✅ Database connection closed');
+        }
+        process.exit(0);
+    });
 });
