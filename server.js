@@ -268,9 +268,16 @@ function authenticateToken(req, res, next) {
     });
 }
 
+// ==================== PAGE ROUTES ====================
+
 // Serve main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Serve dashboard page (NEW)
+app.get('/dashboard.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
 // Serve view-data page
@@ -290,19 +297,22 @@ app.use((err, req, res, next) => {
 });
 
 // ==================== START SERVER ====================
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log('=========================================');
     console.log('🚀 SERVER STARTED SUCCESSFULLY');
     console.log('=========================================');
     console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`🌐 URL: http://localhost:${PORT}`);
+    console.log(`🌍 Live URL: https://auth-live.onrender.com`);
     console.log(`🛜 API: http://localhost:${PORT}/api/test`);
     console.log(`👥 Users API: http://localhost:${PORT}/api/users`);
+    console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard.html`);
     console.log(`💾 Database: SQLite (database.db)`);
     console.log(`🔐 JWT Secret: ${JWT_SECRET === 'your-secret-key-change-in-production' ? '⚠️ CHANGE IN PRODUCTION' : '✅ Set from env'}`);
     console.log('=========================================');
     console.log('✅ Ready for deployment to Render.com');
     console.log('✅ Frontend: http://localhost:3000');
+    console.log('✅ Dashboard: http://localhost:3000/dashboard.html');
     console.log('✅ View Data: http://localhost:3000/view-data');
     console.log('=========================================');
 });

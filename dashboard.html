@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCESS | DASHBOARD</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+    </div>
+    
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-lock"></i>
+                    <span>ACCESS</span>
+                </div>
+                <div class="user-greet">
+                    <div class="greet-text">HY</div>
+                    <div class="user-name" id="user-name">USER</div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="status-indicator active">
+                    <i class="fas fa-circle"></i>
+                    <span>ONLINE</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>LOGOUT</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            <!-- Welcome Block (Center) -->
+            <section class="welcome-block">
+                <div class="block-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h2>SECURE DASHBOARD</h2>
+                </div>
+                <div class="block-content">
+                    <div class="welcome-message">
+                        <div class="message-title">WELCOME TO YOUR CONTROL PANEL</div>
+                        <div class="message-subtitle" id="welcome-subtitle">
+                            ALL SYSTEMS OPERATIONAL
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-block">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stat-value" id="login-count">1</div>
+                            <div class="stat-label">TOTAL LOGINS</div>
+                        </div>
+                        
+                        <div class="stat-block">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-value" id="session-time">0m</div>
+                            <div class="stat-label">SESSION TIME</div>
+                        </div>
+                        
+                        <div class="stat-block">
+                            <div class="stat-icon">
+                                <i class="fas fa-shield"></i>
+                            </div>
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">SECURITY</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Action Blocks Grid -->
+            <div class="blocks-grid">
+                <!-- Profile Block -->
+                <div class="action-block">
+                    <div class="block-header">
+                        <i class="fas fa-id-card"></i>
+                        <h3>PROFILE</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="profile-info">
+                            <div class="info-row">
+                                <span class="info-label">NAME:</span>
+                                <span class="info-value" id="profile-name">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">EMAIL:</span>
+                                <span class="info-value" id="profile-email">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">MEMBER SINCE:</span>
+                                <span class="info-value" id="member-since">-</span>
+                            </div>
+                        </div>
+                        <button class="block-btn" id="edit-profile-btn">
+                            <i class="fas fa-edit"></i>
+                            EDIT PROFILE
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Security Block -->
+                <div class="action-block">
+                    <div class="block-header">
+                        <i class="fas fa-lock"></i>
+                        <h3>SECURITY</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="security-status">
+                            <div class="status-item secure">
+                                <i class="fas fa-check-circle"></i>
+                                <span>PASSWORD STRONG</span>
+                            </div>
+                            <div class="status-item secure">
+                                <i class="fas fa-check-circle"></i>
+                                <span>2FA DISABLED</span>
+                            </div>
+                            <div class="status-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>SESSION ACTIVE</span>
+                            </div>
+                        </div>
+                        <button class="block-btn" id="security-btn">
+                            <i class="fas fa-cog"></i>
+                            SECURITY SETTINGS
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions Block -->
+                <div class="action-block">
+                    <div class="block-header">
+                        <i class="fas fa-bolt"></i>
+                        <h3>QUICK ACTIONS</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="quick-actions">
+                            <button class="quick-btn" id="view-data-btn">
+                                <i class="fas fa-database"></i>
+                                VIEW DATA
+                            </button>
+                            <button class="quick-btn" id="api-test-btn">
+                                <i class="fas fa-api"></i>
+                                TEST API
+                            </button>
+                            <button class="quick-btn" id="refresh-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                REFRESH
+                            </button>
+                        </div>
+                        <div class="timestamp" id="last-update">
+                            UPDATED: JUST NOW
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- System Info Block -->
+                <div class="action-block full-width">
+                    <div class="block-header">
+                        <i class="fas fa-server"></i>
+                        <h3>SYSTEM INFORMATION</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="system-info">
+                            <div class="sys-row">
+                                <span class="sys-label">API STATUS:</span>
+                                <span class="sys-value status-online" id="api-status">ONLINE</span>
+                            </div>
+                            <div class="sys-row">
+                                <span class="sys-label">DATABASE:</span>
+                                <span class="sys-value" id="db-status">SQLITE CONNECTED</span>
+                            </div>
+                            <div class="sys-row">
+                                <span class="sys-label">ENVIRONMENT:</span>
+                                <span class="sys-value" id="env-status">PRODUCTION</span>
+                            </div>
+                            <div class="sys-row">
+                                <span class="sys-label">UPTIME:</span>
+                                <span class="sys-value" id="uptime">0:00:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="footer-left">
+                <div class="copyright">
+                    <i class="fas fa-copyright"></i>
+                    <span>2025 ACCESS SECURITY SYSTEM</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="/view-data" class="footer-link">
+                        <i class="fas fa-database"></i>
+                        DATA VIEWER
+                    </a>
+                    <a href="/api/test" class="footer-link">
+                        <i class="fas fa-code"></i>
+                        API TEST
+                    </a>
+                    <a href="/" class="footer-link">
+                        <i class="fas fa-home"></i>
+                        HOME
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Logout Modal -->
+    <div class="modal" id="logout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>CONFIRM LOGOUT</h3>
+            </div>
+            <div class="modal-body">
+                <p>ARE YOU SURE YOU WANT TO LOGOUT FROM YOUR ACCOUNT?</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" id="cancel-logout">CANCEL</button>
+                    <button class="modal-btn confirm" id="confirm-logout">LOGOUT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="dashboard-notification"></div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>

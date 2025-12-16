@@ -304,14 +304,42 @@ async function apiCall(endpoint, method = 'GET', data = null) {
     }
 }
 
-// Show success message
+// Show success message (better notification system)
 function showSuccess(message) {
-    alert('✅ ' + message);
+    // Create notification if it doesn't exist
+    let notification = document.getElementById('success-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'success-notification';
+        notification.className = 'notification success';
+        document.body.appendChild(notification);
+    }
+    
+    notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
 }
 
 // Show error message
 function showAlert(message) {
-    alert('❌ ' + message);
+    // Create notification if it doesn't exist
+    let notification = document.getElementById('error-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'error-notification';
+        notification.className = 'notification error';
+        document.body.appendChild(notification);
+    }
+    
+    notification.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
 }
 
 // Form submission handling
@@ -323,8 +351,11 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         const password = document.getElementById('login-password').value;
         
         try {
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'LOGGING IN...';
+            // Show loading state
+            const btnText = loginBtn.querySelector('.btn-text');
+            const originalText = btnText.textContent;
+            btnText.textContent = 'LOGGING IN...';
+            loginBtn.classList.add('loading');
             
             const result = await apiCall('/login', 'POST', { email, password });
             
@@ -338,9 +369,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             document.getElementById('login-form').reset();
             clearAllErrors();
             
-            // Redirect to dashboard after 1 second
+            // Redirect to dashboard after 1 second (FIXED PATH)
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
             }, 1000);
             
         } catch (error) {
@@ -348,8 +379,10 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             showError('login-password', error.message);
             showAlert(error.message);
         } finally {
-            loginBtn.disabled = false;
-            loginBtn.textContent = 'LOGIN';
+            // Reset button state
+            const btnText = loginBtn.querySelector('.btn-text');
+            btnText.textContent = 'LOGIN';
+            loginBtn.classList.remove('loading');
         }
     }
 });
@@ -363,8 +396,11 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const password = registerPassword.value;
         
         try {
-            registerBtn.disabled = true;
-            registerBtn.textContent = 'CREATING ACCOUNT...';
+            // Show loading state
+            const btnText = registerBtn.querySelector('.btn-text');
+            const originalText = btnText.textContent;
+            btnText.textContent = 'CREATING ACCOUNT...';
+            registerBtn.classList.add('loading');
             
             const result = await apiCall('/register', 'POST', { name, email, password });
             
@@ -382,14 +418,18 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
                 passwordRequirements.style.display = 'none';
                 
                 registerBtn.disabled = true;
-                registerBtn.textContent = 'CREATE ACCOUNT';
+                const btnText = registerBtn.querySelector('.btn-text');
+                btnText.textContent = 'CREATE ACCOUNT';
+                registerBtn.classList.remove('loading');
             }, 1500);
             
         } catch (error) {
             showError('register-email', error.message);
             showAlert(error.message);
             registerBtn.disabled = false;
-            registerBtn.textContent = 'CREATE ACCOUNT';
+            const btnText = registerBtn.querySelector('.btn-text');
+            btnText.textContent = 'CREATE ACCOUNT';
+            registerBtn.classList.remove('loading');
         }
     }
 });
