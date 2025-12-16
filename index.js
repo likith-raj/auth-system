@@ -1,5 +1,5 @@
-// Base URL for API
-const API_URL = 'http://localhost:3000/api';
+// Base URL for API - FIXED: Works both locally and on live server
+const API_URL = window.location.origin + '/api';
 
 // DOM Elements
 const loginToggle = document.getElementById('login-toggle');
@@ -59,7 +59,6 @@ function clearAllErrors() {
     inputs.forEach(input => input.style.borderColor = '#333');
 }
 
-// Show error for specific field
 // Show error for specific field
 function showError(field, message) {
     // Map field names to actual error element IDs in HTML
@@ -395,19 +394,6 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     }
 });
 
-// Initialize form validation
-updateRegisterButton();
-
-// Test backend connection on page load
-window.addEventListener('load', async () => {
-    try {
-        const result = await apiCall('/test');
-        console.log('✅ Backend connection successful:', result.message);
-    } catch (error) {
-        console.log('❌ Backend not connected. Make sure server is running.');
-        console.log('Run: node simple-server.js');
-    }
-});
 // Password visibility toggle
 function setupPasswordToggles() {
     const toggles = [
@@ -434,3 +420,62 @@ function setupPasswordToggles() {
 
 // Initialize password toggles on page load
 document.addEventListener('DOMContentLoaded', setupPasswordToggles);
+
+// Initialize form validation
+updateRegisterButton();
+
+// Test backend connection on page load
+window.addEventListener('load', async () => {
+    try {
+        const result = await apiCall('/test');
+        console.log('✅ Backend connection successful:', result.message);
+    } catch (error) {
+        console.log('❌ Backend not connected. Make sure server is running.');
+    }
+});
+
+// ==================== MOBILE TOUCH OPTIMIZATIONS ====================
+// Mobile touch improvements
+document.addEventListener('DOMContentLoaded', function() {
+    // Make buttons more touch-friendly
+    document.querySelectorAll('button, .submit-btn, .toggle-btn').forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+            this.style.transition = 'transform 0.1s';
+        });
+        
+        btn.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+    
+    // Prevent zoom on input focus in iOS
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('touchstart', function(e) {
+            if (window.innerWidth <= 768) {
+                this.style.fontSize = '16px'; // Prevents iOS zoom
+            }
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.fontSize = '';
+        });
+        
+        // Better focus for mobile
+        input.addEventListener('focus', function() {
+            if (window.innerWidth <= 768) {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    });
+    
+    // Handle viewport height changes on mobile
+    function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+});

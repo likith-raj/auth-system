@@ -6,16 +6,23 @@
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* Custom property for mobile viewport height */
+:root {
+    --vh: 1vh;
+}
+
 /* Body & Background */
 body {
     background-color: #000000;
     color: #fff;
     min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
     position: relative;
+    padding: 10px;
 }
 
 /* Animated Background Circles */
@@ -94,7 +101,7 @@ body {
 .container {
     width: 100%;
     max-width: 400px;
-    padding: 20px;
+    padding: 15px;
     z-index: 1;
     animation: fadeIn 0.8s ease-out;
 }
@@ -113,7 +120,7 @@ body {
 /* Logo */
 .logo {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     animation: slideDown 0.6s ease-out 0.2s both;
 }
 
@@ -170,7 +177,7 @@ body {
     background-color: rgba(17, 17, 17, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 30px;
+    padding: 25px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: 100%;
     backdrop-filter: blur(10px);
@@ -191,7 +198,7 @@ body {
 /* Form Toggle */
 .form-toggle {
     display: flex;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     background-color: rgba(34, 34, 34, 0.8);
     border-radius: 8px;
     overflow: hidden;
@@ -216,6 +223,8 @@ body {
     gap: 8px;
     position: relative;
     overflow: hidden;
+    min-height: 46px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .toggle-btn::before {
@@ -261,7 +270,7 @@ body {
 
 /* Input Groups */
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     position: relative;
 }
 
@@ -283,6 +292,7 @@ body {
     color: #666;
     font-size: 14px;
     transition: all 0.3s;
+    pointer-events: none;
 }
 
 .input-group input {
@@ -295,6 +305,9 @@ body {
     font-size: 14px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'Segoe UI', sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 48px;
 }
 
 .input-group input:focus {
@@ -333,6 +346,12 @@ body {
     background: none;
     border: none;
     padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .toggle-password:hover {
@@ -361,6 +380,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 48px;
+    min-height: 48px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .submit-btn::before {
@@ -394,6 +415,7 @@ body {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    opacity: 0.7;
 }
 
 .submit-btn:disabled:hover::before {
@@ -435,7 +457,7 @@ body {
 /* Form Footer */
 .form-footer {
     text-align: center;
-    margin-top: 25px;
+    margin-top: 20px;
     animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
@@ -450,14 +472,14 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 5px;
+    padding: 6px 10px;
     border-radius: 4px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .form-footer a:hover {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.05);
-    padding: 5px 10px;
 }
 
 /* Error Messages */
@@ -607,15 +629,26 @@ body {
     border-left-color: #00cc44;
 }
 
-/* Mobile Adjustments */
+/* ==================== RESPONSIVE MEDIA QUERIES ==================== */
+
+/* Large Mobile (480px and below) */
 @media (max-width: 480px) {
+    body {
+        padding: 5px;
+        align-items: flex-start;
+        padding-top: 20px;
+        min-height: -webkit-fill-available;
+    }
+    
     .container {
-        padding: 15px;
-        max-width: 350px;
+        padding: 10px;
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
     }
     
     .form-container {
-        padding: 25px;
+        padding: 20px;
     }
     
     .logo h1 {
@@ -629,25 +662,222 @@ body {
     .toggle-btn {
         font-size: 12px;
         padding: 12px 8px;
+        min-height: 44px;
+    }
+    
+    .input-group input {
+        padding: 16px 14px 16px 40px;
+        font-size: 16px; /* Prevents iOS zoom */
+        min-height: 50px;
+    }
+    
+    .submit-btn {
+        padding: 16px;
+        min-height: 50px;
+        font-size: 15px;
     }
     
     .notification {
         max-width: 280px;
         right: 10px;
         left: 10px;
+        top: 10px;
     }
 }
 
+/* Small Mobile (360px and below) */
 @media (max-width: 360px) {
     .container {
-        max-width: 320px;
+        padding: 8px;
     }
     
     .form-container {
-        padding: 20px;
+        padding: 18px;
     }
     
     .logo h1 {
         font-size: 26px;
+    }
+    
+    .logo-icon {
+        font-size: 36px;
+    }
+    
+    .toggle-btn {
+        font-size: 11px;
+        padding: 10px 6px;
+        min-height: 42px;
+    }
+    
+    .input-group label {
+        font-size: 10px;
+    }
+    
+    .input-group input {
+        padding: 14px 12px 14px 36px;
+        font-size: 15px;
+    }
+    
+    .input-icon {
+        left: 12px;
+        top: 35px;
+        font-size: 13px;
+    }
+    
+    .toggle-password {
+        right: 12px;
+        top: 35px;
+        font-size: 13px;
+    }
+    
+    .form-footer a {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+}
+
+/* Tablet (768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        max-width: 450px;
+        padding: 25px;
+    }
+    
+    .form-container {
+        padding: 30px;
+    }
+    
+    .logo h1 {
+        font-size: 36px;
+    }
+    
+    .logo p {
+        font-size: 13px;
+    }
+    
+    .toggle-btn {
+        font-size: 14px;
+        padding: 16px 12px;
+        min-height: 50px;
+    }
+    
+    .input-group input {
+        padding: 16px 14px 16px 40px;
+        font-size: 15px;
+        min-height: 50px;
+    }
+    
+    .submit-btn {
+        padding: 17px;
+        font-size: 15px;
+        min-height: 52px;
+    }
+}
+
+/* Landscape Mobile (Height less than 600px) */
+@media (max-height: 600px) and (orientation: landscape) {
+    body {
+        align-items: flex-start;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .container {
+        padding: 10px;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    .logo-icon {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+    
+    .logo h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+    
+    .logo p {
+        font-size: 10px;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+    
+    .input-group {
+        margin-bottom: 12px;
+    }
+    
+    .input-group input {
+        padding: 12px 12px 12px 36px;
+        min-height: 44px;
+        font-size: 14px;
+    }
+    
+    .input-icon {
+        top: 33px;
+        left: 12px;
+    }
+    
+    .toggle-password {
+        top: 33px;
+        right: 12px;
+    }
+    
+    .submit-btn {
+        padding: 12px;
+        min-height: 44px;
+        font-size: 13px;
+    }
+    
+    .form-footer {
+        margin-top: 15px;
+    }
+}
+
+/* Prevent text size adjustment on orientation change */
+@media (orientation: landscape) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+}
+
+/* High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .input-group input,
+    .submit-btn,
+    .toggle-btn {
+        border-width: 0.5px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .form-container {
+        background-color: rgba(10, 10, 10, 0.95);
+    }
+    
+    .input-group input {
+        background-color: rgba(20, 20, 20, 0.9);
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .bg-animation .circle {
+        animation: none !important;
     }
 }
