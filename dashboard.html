@@ -6,260 +6,202 @@
     <title>ACCESS | DASHBOARD</title>
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-grid">
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-    </div>
-    
-    <!-- Floating Particles -->
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-    
-    <!-- Main Container -->
     <div class="dashboard-container">
         <!-- Header -->
         <header class="dashboard-header">
-            <div class="header-left">
-                <div class="logo">
-                    <i class="fas fa-lock"></i>
-                    <span>ACCESS</span>
-                </div>
-                <div class="user-greet">
-                    <div class="greet-text">HY</div>
-                    <div class="user-name" id="user-name">USER</div>
+            <div class="header-block">
+                <div class="logo">ACCESS</div>
+                <div class="user-block">
+                    <div class="greeting">HY</div>
+                    <div class="username" id="username">USER</div>
                 </div>
             </div>
             
-            <div class="header-right">
-                <div class="status-indicator active">
-                    <i class="fas fa-circle"></i>
-                    <span>ONLINE</span>
-                </div>
-                <button class="logout-btn" id="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>LOGOUT</span>
+            <div class="header-block right">
+                <div class="status">ONLINE</div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> LOGOUT
                 </button>
             </div>
         </header>
-        
-        <!-- Main Content Area -->
+
+        <!-- Main Content -->
         <main class="dashboard-main">
-            <!-- Welcome Block (Center) -->
-            <section class="welcome-block">
-                <div class="block-header">
-                    <i class="fas fa-shield-alt"></i>
-                    <h2>SECURE DASHBOARD</h2>
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-block">
+                    <div class="stat-title">TOTAL LOGINS</div>
+                    <div class="stat-value" id="login-count">1</div>
                 </div>
-                <div class="block-content">
-                    <div class="welcome-message">
-                        <div class="message-title">WELCOME TO YOUR CONTROL PANEL</div>
-                        <div class="message-subtitle" id="welcome-subtitle">
-                            ALL SYSTEMS OPERATIONAL
-                        </div>
-                    </div>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-block">
-                            <div class="stat-icon">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                            <div class="stat-value" id="login-count">1</div>
-                            <div class="stat-label">TOTAL LOGINS</div>
-                        </div>
-                        
-                        <div class="stat-block">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="stat-value" id="session-time">0m</div>
-                            <div class="stat-label">SESSION TIME</div>
-                        </div>
-                        
-                        <div class="stat-block">
-                            <div class="stat-icon">
-                                <i class="fas fa-shield"></i>
-                            </div>
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">SECURITY</div>
-                        </div>
-                    </div>
+                
+                <div class="stat-block">
+                    <div class="stat-title">SESSION TIME</div>
+                    <div class="stat-value" id="session-time">00:00</div>
                 </div>
-            </section>
-            
-            <!-- Action Blocks Grid -->
-            <div class="blocks-grid">
+                
+                <div class="stat-block">
+                    <div class="stat-title">SECURITY STATUS</div>
+                    <div class="stat-value">ACTIVE</div>
+                </div>
+            </div>
+
+            <!-- Info Blocks -->
+            <div class="content-grid">
                 <!-- Profile Block -->
-                <div class="action-block">
-                    <div class="block-header">
-                        <i class="fas fa-id-card"></i>
-                        <h3>PROFILE</h3>
+                <div class="info-block">
+                    <div class="block-title">
+                        <i class="fas fa-user"></i> PROFILE
                     </div>
                     <div class="block-content">
-                        <div class="profile-info">
-                            <div class="info-row">
-                                <span class="info-label">NAME:</span>
-                                <span class="info-value" id="profile-name">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">EMAIL:</span>
-                                <span class="info-value" id="profile-email">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">MEMBER SINCE:</span>
-                                <span class="info-value" id="member-since">-</span>
-                            </div>
+                        <div class="info-line">
+                            <span class="info-label">NAME:</span>
+                            <span class="info-value" id="profile-name">-</span>
                         </div>
-                        <button class="block-btn" id="edit-profile-btn">
-                            <i class="fas fa-edit"></i>
-                            EDIT PROFILE
+                        <div class="info-line">
+                            <span class="info-label">EMAIL:</span>
+                            <span class="info-value" id="profile-email">-</span>
+                        </div>
+                        <div class="info-line">
+                            <span class="info-label">MEMBER SINCE:</span>
+                            <span class="info-value" id="member-since">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Block -->
+                <div class="info-block">
+                    <div class="block-title">
+                        <i class="fas fa-server"></i> SYSTEM
+                    </div>
+                    <div class="block-content">
+                        <div class="info-line">
+                            <span class="info-label">API STATUS:</span>
+                            <span class="info-value status-online">ONLINE</span>
+                        </div>
+                        <div class="info-line">
+                            <span class="info-label">DATABASE:</span>
+                            <span class="info-value">SQLITE</span>
+                        </div>
+                        <div class="info-line">
+                            <span class="info-label">ENVIRONMENT:</span>
+                            <span class="info-value">PRODUCTION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Block -->
+                <div class="info-block">
+                    <div class="block-title">
+                        <i class="fas fa-bolt"></i> ACTIONS
+                    </div>
+                    <div class="block-content">
+                        <button class="action-btn" onclick="window.location.href='/view-data'">
+                            <i class="fas fa-database"></i> VIEW DATA
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='/api/test'">
+                            <i class="fas fa-code"></i> TEST API
+                        </button>
+                        <button class="action-btn" onclick="refreshDashboard()">
+                            <i class="fas fa-sync-alt"></i> REFRESH
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Security Block -->
-                <div class="action-block">
-                    <div class="block-header">
-                        <i class="fas fa-lock"></i>
-                        <h3>SECURITY</h3>
+                <div class="info-block">
+                    <div class="block-title">
+                        <i class="fas fa-shield-alt"></i> SECURITY
                     </div>
                     <div class="block-content">
-                        <div class="security-status">
-                            <div class="status-item secure">
-                                <i class="fas fa-check-circle"></i>
-                                <span>PASSWORD STRONG</span>
-                            </div>
-                            <div class="status-item secure">
-                                <i class="fas fa-check-circle"></i>
-                                <span>2FA DISABLED</span>
-                            </div>
-                            <div class="status-item warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>SESSION ACTIVE</span>
-                            </div>
+                        <div class="security-line">
+                            <i class="fas fa-check"></i> PASSWORD: SECURE
                         </div>
-                        <button class="block-btn" id="security-btn">
-                            <i class="fas fa-cog"></i>
-                            SECURITY SETTINGS
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Quick Actions Block -->
-                <div class="action-block">
-                    <div class="block-header">
-                        <i class="fas fa-bolt"></i>
-                        <h3>QUICK ACTIONS</h3>
-                    </div>
-                    <div class="block-content">
-                        <div class="quick-actions">
-                            <button class="quick-btn" id="view-data-btn">
-                                <i class="fas fa-database"></i>
-                                VIEW DATA
-                            </button>
-                            <button class="quick-btn" id="api-test-btn">
-                                <i class="fas fa-api"></i>
-                                TEST API
-                            </button>
-                            <button class="quick-btn" id="refresh-btn">
-                                <i class="fas fa-sync-alt"></i>
-                                REFRESH
-                            </button>
+                        <div class="security-line">
+                            <i class="fas fa-check"></i> SESSION: ACTIVE
                         </div>
-                        <div class="timestamp" id="last-update">
-                            UPDATED: JUST NOW
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- System Info Block -->
-                <div class="action-block full-width">
-                    <div class="block-header">
-                        <i class="fas fa-server"></i>
-                        <h3>SYSTEM INFORMATION</h3>
-                    </div>
-                    <div class="block-content">
-                        <div class="system-info">
-                            <div class="sys-row">
-                                <span class="sys-label">API STATUS:</span>
-                                <span class="sys-value status-online" id="api-status">ONLINE</span>
-                            </div>
-                            <div class="sys-row">
-                                <span class="sys-label">DATABASE:</span>
-                                <span class="sys-value" id="db-status">SQLITE CONNECTED</span>
-                            </div>
-                            <div class="sys-row">
-                                <span class="sys-label">ENVIRONMENT:</span>
-                                <span class="sys-value" id="env-status">PRODUCTION</span>
-                            </div>
-                            <div class="sys-row">
-                                <span class="sys-label">UPTIME:</span>
-                                <span class="sys-value" id="uptime">0:00:00</span>
-                            </div>
+                        <div class="security-line">
+                            <i class="fas fa-check"></i> ENCRYPTION: ON
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        
+
         <!-- Footer -->
         <footer class="dashboard-footer">
             <div class="footer-left">
-                <div class="copyright">
-                    <i class="fas fa-copyright"></i>
-                    <span>2025 ACCESS SECURITY SYSTEM</span>
-                </div>
+                <span>ACCESS CONTROL PANEL</span>
             </div>
             <div class="footer-right">
-                <div class="footer-links">
-                    <a href="/view-data" class="footer-link">
-                        <i class="fas fa-database"></i>
-                        DATA VIEWER
-                    </a>
-                    <a href="/api/test" class="footer-link">
-                        <i class="fas fa-code"></i>
-                        API TEST
-                    </a>
-                    <a href="/" class="footer-link">
-                        <i class="fas fa-home"></i>
-                        HOME
-                    </a>
-                </div>
+                <span id="current-time">--:--:--</span>
             </div>
         </footer>
     </div>
-    
-    <!-- Logout Modal -->
-    <div class="modal" id="logout-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <i class="fas fa-sign-out-alt"></i>
-                <h3>CONFIRM LOGOUT</h3>
-            </div>
-            <div class="modal-body">
-                <p>ARE YOU SURE YOU WANT TO LOGOUT FROM YOUR ACCOUNT?</p>
-                <div class="modal-buttons">
-                    <button class="modal-btn cancel" id="cancel-logout">CANCEL</button>
-                    <button class="modal-btn confirm" id="confirm-logout">LOGOUT</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Notification -->
-    <div class="notification" id="dashboard-notification"></div>
-    
-    <script src="dashboard.js"></script>
+
+    <!-- Simple Script -->
+    <script>
+        // Load user data
+        function loadUserData() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                try {
+                    const userData = JSON.parse(user);
+                    document.getElementById('username').textContent = userData.name.toUpperCase();
+                    document.getElementById('profile-name').textContent = userData.name.toUpperCase();
+                    document.getElementById('profile-email').textContent = userData.email;
+                    
+                    const now = new Date();
+                    document.getElementById('member-since').textContent = 
+                        now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
+                } catch (e) {
+                    console.log('Error loading user data');
+                }
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Session timer
+        let sessionStart = Date.now();
+        function updateSessionTimer() {
+            const elapsed = Date.now() - sessionStart;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            document.getElementById('session-time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // Refresh dashboard
+        function refreshDashboard() {
+            const loginCount = document.getElementById('login-count');
+            let count = parseInt(loginCount.textContent);
+            loginCount.textContent = count + 1;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            setInterval(updateSessionTimer, 1000);
+            setInterval(updateTime, 1000);
+            updateTime();
+        });
+    </script>
 </body>
 </html>
